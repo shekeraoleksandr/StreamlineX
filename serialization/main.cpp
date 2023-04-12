@@ -2,34 +2,8 @@
 #include <vector>
 #include <bitset>
 #include <assert.h>
-
+#include <fstream>
 #pragma warning(disable : 26812)
-
-
-namespace Core
-{
-	namespace Util
-	{
-		bool isLittleEndian()
-		{
-			// 0x00 0x00 0x00 0b0000 0101 
-			int a = 5;
-			std::string result = std::bitset<8>(a).to_string();
-			if (result.back() == '1') return true;
-		}
-	}
-
-	// 0 1 2 3 
-	// 0x00 0x00 0x00 0x5
-	template<typename T>
-	void encode(std::vector<int8_t>* buffer, int16_t* iterator, T value)
-	{
-		for (unsigned i = 0, j = 0; i < sizeof T; i++)
-		{
-			(*buffer)[(*iterator)++] = (value >> ((sizeof T * 8) - 8) - ((i == 0) ? j : j += 8));
-		}
-	}
-}
 
 
 namespace ObjectModel
@@ -84,7 +58,18 @@ namespace ObjectModel
 	private:
 		Primitive();
 	public:
-		static Primitive* create(std::string name, Type type, int32_t value);
+		template<typename T>
+		Primitive* create(std::string name, Type type, T value)
+		{
+			Primitive* p = new Primitive();
+			p->setName(name);
+			p->wrapper = static_cast<int8_t>(Wrapper::PRIMITIVE);
+			p->type = static_cast<int8_t>(type);
+			p->data = new std::vector<int8_t>(sizeof value);
+			int16_t iterator = 0;
+			Core::template encode(p->data, &iterator, value);
+			return p;
+		}
 		void pack(std::vector<int8_t>*, int16_t*);
 	};
 
@@ -97,8 +82,91 @@ namespace ObjectModel
 	{
 
 	};
+}
+
+namespace Core
+{
+	namespace Util
+	{
+		bool isLittleEndian()
+		{
+			// 0x00 0x00 0x00 0b0000 0101 
+			int a = 5;
+			std::string result = std::bitset<8>(a).to_string();
+			if (result.back() == '1') return true;
+		}
+
+		void save(const char* file, std::vector<int8_t> buffer)
+		{
+			std::ofstream out;
+			out.open(file);
+
+			for (unsigned i = 0; i < buffer.size(); i++)
+			{
+				out << buffer[i];
+			}
+
+			out.close();
+		}
+
+		void retriveNsave(ObjectModel::Root* r)
+		{
+			int16_t iterotor = 0;
+			std::vector<int8_t> buffer(r->getSize());
+			std::string name = r->getName().substr(0, r->getName().length()).append(".ttc");
+			r->pack(&buffer, &iterotor);
+			save(name.c_str(), buffer);
+		}
+	}
+
+	// 0 1 2 3 
+	// 0x00 0x00 0x00 0x5
+	template<typename T>
+	void encode(std::vector<int8_t>* buffer, int16_t* iterator, T value)
+	{
+		for (unsigned i = 0, j = 0; i < sizeof T; i++)
+		{
+			(*buffer)[(*iterator)++] = (value >> ((sizeof T * 8) - 8) - ((i == 0) ? j : j += 8));
+		}
+	}
+
+	template<>
+	void encode<float>(std::vector<int8_t>* buffer, int16_t* iterator, float value)
+	{
+		int32_t result = *reinterpret_cast<int32_t*>(&value);
+		encode<int32_t>(buffer, iterator, result);
+	}
+
+	template<>
+	void encode<double>(std::vector<int8_t>* buffer, int16_t* iterator, double value)
+	{
+		int32_t result = *reinterpret_cast<int64_t*>(&value);
+		encode<int64_t>(buffer, iterator, result);
+	}
+
+	template<typename T>
+	void encode(std::vector<int8_t>* buffer, int16_t* iterator, T value)
+	{
+		for (unsigned i = 0; i < value.size(); i++)
+		{
+			encode<int8_t>(buffer, iterator, value[i]);
+		}
+	}
+
+	template<typename T>
+	void encode(std::vector<int8_t>* buffer, int16_t* iterator, std::vector<T> value)
+	{
+		for (unsigned i = 0; i < value.size(); i++)
+		{
+			encode<T>(buffer, iterator, value[i]);
+		}
+	}
+
+}
 
 
+namespace ObjectModel
+{
 	//defenition
 	Root::Root()
 		:
@@ -119,9 +187,9 @@ namespace ObjectModel
 		return size;
 	}
 
-	void Root::pack(std::vector<int8_t>*, int16_t*)
+	void Root::pack(std::vector<int8_t>* buffer, int16_t* iterator)
 	{
-		//maybe pure virtual??
+		Core::encode<std::string>(buffer, iterator, name);
 	}
 
 	std::string Root::getName()
@@ -134,21 +202,14 @@ namespace ObjectModel
 		size += sizeof type;
 	}
 
-	Primitive* Primitive::create(std::string name, Type type, int32_t value)
+	void Primitive::pack(std::vector<int8_t>* buffer, int16_t* iterator)
 	{
-		Primitive* p = new Primitive();
-		p->setName(name);
-		p->wrapper = static_cast<int8_t>(Wrapper::PRIMITIVE);
-		p->type = static_cast<int8_t>(type);
-		p->data = new std::vector<int8_t>(sizeof value);
-		int16_t iterator = 0;
-		Core::encode(p->data, &iterator, value);
-		return p;
-	}
-
-	void Primitive::pack(std::vector<int8_t>*, int16_t*)
-	{
-
+		Core::encode<std::string>(buffer, iterator, name);
+		Core::encode<int16_t>(buffer, iterator, nameLength);
+		Core::encode<int8_t>(buffer, iterator, wrapper);
+		Core::encode<int8_t>(buffer, iterator, type);
+		Core::encode<int8_t>(buffer, iterator, *data);
+		Core::encode<int32_t>(buffer, iterator, size);
 	}
 }
 
@@ -288,7 +349,7 @@ int main(int argc, char** argv)
 	assert(Core::Util::isLittleEndian());
 
 	int32_t foo = 5;
-	Primitive* p = Primitive::create("int32", Type::I32, foo);
+	Primitive* p = Primitive::createI32("int32", Type::I32, foo);
 #if 0
 	System Foo("Foo");
 	Event* e = new KeyboardEvent('a', true, false);
