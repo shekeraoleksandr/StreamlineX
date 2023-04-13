@@ -139,9 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="include\lib.h" />
     <ClCompile Include="src\array.cpp" />
     <ClCompile Include="src\core.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\object.cpp" />
     <ClCompile Include="src\primitive.cpp" />
   </ItemGroup>
