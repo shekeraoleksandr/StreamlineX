@@ -83,6 +83,14 @@ namespace ObjectModel
 
 	class Object : public Root
 	{
+	private:
+		std::vector<Root*> entities;
+		int16_t count = 0;
+	public:
+		Object(std::string);
+		void addEntitie(Root* r);
+		Root* findByName(std::string);
+		void pack(std::vector<int8_t>*, int16_t*);
 
 	};
 }
@@ -274,6 +282,48 @@ namespace ObjectModel
 		Core::encode<int8_t>(buffer, iterator, *data);
 		Core::encode<int32_t>(buffer, iterator, size);
 	}
+
+	Object::Object(std::string name)
+	{
+		setName(name);
+		wrapper = static_cast<int8_t>(Wrapper::OBJECT);
+		size += sizeof count;
+	}
+
+	void Object::addEntitie(Root* r)
+	{
+		this->entities.push_back(r);
+		count += 1;
+		size += r->getSize();
+	}	
+
+	Root* Object::findByName(std::string name)
+	{
+		for (const auto r : entities)
+		{
+			if (r->getName() == name)
+			{
+				return r;
+			}
+		}
+		std::cout << "no as such" << std::endl;
+		return new Object("ninjia");
+	}
+
+	void Object::pack(std::vector<int8_t>* buffer, int16_t* iterator)
+	{
+		Core::encode<std::string>(buffer, iterator, name);
+		Core::encode<int16_t>(buffer, iterator, nameLength);
+		Core::encode<int8_t>(buffer, iterator, wrapper);
+		Core::encode<int16_t>(buffer, iterator, count);
+		
+		for (const auto r : entities)
+		{
+			r->pack(buffer, iterator);
+		}
+
+		Core::encode<int32_t>(buffer, iterator, size);
+	}
 }
 
 
@@ -407,7 +457,6 @@ int main(int argc, char** argv)
 	int32_t foo = 5;
 	Primitive* p = Primitive::create("int32", Type::I32, foo);
 	Core::Util::retriveNsave(p);
-#endif
 
 	std::vector<int64_t> data{ 1, 2, 3, 4 };
 	Array* arr = Array::createArray("array", Type::I64, data);
@@ -417,7 +466,20 @@ int main(int argc, char** argv)
 	Array* string = Array::createString("string", Type::I8, name);
 	Core::Util::retriveNsave(string);
 
-#if 0
+	Object Test("Test");
+	Test.addEntitie(p);
+	Test.addEntitie(arr);
+	Test.addEntitie(string);
+
+	Object Test2("Test2");
+	Test2.addEntitie(p);
+	Core::Util::retriveNsave(&Test2);
+
+	Test.addEntitie(&Test2);
+	Core::Util::retriveNsave(&Test);
+
+#endif
+#if 1
 	System Foo("Foo");
 	Event* e = new KeyboardEvent('a', true, false);
 
