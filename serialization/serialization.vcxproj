@@ -140,6 +140,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\array.cpp" />
+    <ClCompile Include="src\core.cpp" />
+    <ClCompile Include="src\object.cpp" />
+    <ClCompile Include="src\primitive.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\array.h" />
+    <ClInclude Include="include\core.h" />
+    <ClInclude Include="include\meta.h" />
+    <ClInclude Include="include\object.h" />
+    <ClInclude Include="include\primitive.h" />
+    <ClInclude Include="include\root.h" />
+    <ClInclude Include="include\serialization.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
