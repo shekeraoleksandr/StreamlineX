@@ -3,6 +3,8 @@
 #include <bitset>
 #include <assert.h>
 #include <fstream>
+#include <random>
+#include <string>
 #pragma warning(disable : 26812)
 
 
@@ -295,7 +297,7 @@ namespace ObjectModel
 		this->entities.push_back(r);
 		count += 1;
 		size += r->getSize();
-	}	
+	}
 
 	Root* Object::findByName(std::string name)
 	{
@@ -316,7 +318,7 @@ namespace ObjectModel
 		Core::encode<int16_t>(buffer, iterator, nameLength);
 		Core::encode<int8_t>(buffer, iterator, wrapper);
 		Core::encode<int16_t>(buffer, iterator, count);
-		
+
 		for (const auto r : entities)
 		{
 			r->pack(buffer, iterator);
@@ -350,6 +352,8 @@ namespace EventSystem
 
 	class Event
 	{
+	private:
+		int32_t ID;
 	public:
 		enum DeviceType : int8_t
 		{
@@ -363,6 +367,7 @@ namespace EventSystem
 	public:
 		Event(DeviceType);
 		DeviceType getdType();
+		int32_t getID();
 		friend std::ostream& operator<<(std::ostream& stream, const DeviceType dType)
 		{
 			std::string result;
@@ -377,6 +382,7 @@ namespace EventSystem
 			return stream << result;
 		}
 		void bind(System*, Event*);
+		void serialize(ObjectModel::Object* o);
 	};
 
 	class KeyboardEvent : public Event
@@ -387,6 +393,7 @@ namespace EventSystem
 		bool released;
 	public:
 		KeyboardEvent(int16_t, bool, bool);
+		void serialize(ObjectModel::Object* o);
 	};
 
 
@@ -415,13 +422,39 @@ namespace EventSystem
 		return events.front();
 	}
 
+	int32_t Event::getID()
+	{
+		return ID;
+	}
+
 	void System::serialize()
 	{
-		//TODO: serialize the stuff here 
+		ObjectModel::Object system("SysInfo");
+		ObjectModel::Array* name = ObjectModel::Array::createString("sysName", ObjectModel::Type::I8, this->name);
+		ObjectModel::Primitive* desc = ObjectModel::Primitive::create("desc", ObjectModel::Type::I32, this->descriptor);
+		ObjectModel::Primitive* index = ObjectModel::Primitive::create("index", ObjectModel::Type::I16, this->index);
+		ObjectModel::Primitive* active = ObjectModel::Primitive::create("active", ObjectModel::Type::BOOL, this->active);
+		system.addEntitie(name);
+		system.addEntitie(desc);
+		system.addEntitie(index);
+		system.addEntitie(active);
+
+		for (const auto e : events)
+		{
+			KeyboardEvent* kb = static_cast<KeyboardEvent*>(e);
+			ObjectModel::Object* eventObject = new ObjectModel::Object("Event: " + std::to_string(e->getID()));
+			kb->serialize(eventObject);
+			system.addEntitie(eventObject);
+		}
+
+		Core::Util::retriveNsave(&system);
 	}
 
 	Event::Event(DeviceType dType)
 	{
+		std::random_device rd;
+		std::uniform_int_distribution<> destr(1, 100);
+		this->ID = destr(rd);
 		this->dType = dType;
 	}
 
@@ -429,6 +462,15 @@ namespace EventSystem
 	{
 		this->system = system;
 		this->system->events.push_back(e);
+	}
+
+	void Event::serialize(ObjectModel::Object* o)
+	{
+		ObjectModel::Primitive* ID = ObjectModel::Primitive::create("ID", ObjectModel::Type::I32, this->getID());
+		ObjectModel::Primitive* dType = ObjectModel::Primitive::create("dType", ObjectModel::Type::I8, static_cast<int8_t>(this->getdType()));
+
+		o->addEntitie(ID);
+		o->addEntitie(dType);
 	}
 
 	Event::DeviceType Event::getdType()
@@ -443,6 +485,16 @@ namespace EventSystem
 		pressed(pressed),
 		released(released) {}
 
+	void KeyboardEvent::serialize(ObjectModel::Object* o)
+	{
+		Event::serialize(o);
+		ObjectModel::Primitive* keyCode = ObjectModel::Primitive::create("keyCode", ObjectModel::Type::I16, this->keyCode);
+		ObjectModel::Primitive* pressed = ObjectModel::Primitive::create("pressed", ObjectModel::Type::BOOL, this->pressed);
+		ObjectModel::Primitive* released = ObjectModel::Primitive::create("released", ObjectModel::Type::BOOL, this->released);
+		o->addEntitie(keyCode);
+		o->addEntitie(pressed);
+		o->addEntitie(released);
+	}
 }
 
 
