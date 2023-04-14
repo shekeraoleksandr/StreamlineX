@@ -36,4 +36,9 @@ namespace ObjectModel
 		Core::encode<int32_t>(buffer, iterator, size);
 
 	}
+
+	std::vector<uint8_t> Primitive::getData()
+	{
+		return *data;
+	}
 }

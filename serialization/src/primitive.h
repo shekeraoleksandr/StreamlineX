@@ -16,7 +16,8 @@ namespace ObjectModel
 		static std::unique_ptr<Primitive> create(std::string name, Type type, T value);
 
 		void pack(std::vector<uint8_t>&, int16_t&);
-
+		std::vector<uint8_t> getData();
+		std::vector<uint8_t>* getPtrData() { return data; }
 	};
 
 }

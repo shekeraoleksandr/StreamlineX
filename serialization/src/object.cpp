@@ -1,33 +1,21 @@
 #include "object.h"
 #include "core.h"
 
+
 namespace ObjectModel
 {
-	Object::Object(std::string name)
+	Object::Object(std::string name = "default")
 	{
 		setName(name);
-		wrapper = static_cast<int8_t>(Wrapper::OBJECT);
-		size += sizeof count;
+		wrapper = static_cast<uint8_t>(Wrapper::OBJECT);
+		size += (sizeof int16_t) * 4;
 	}
 
-	void Object::addEntitie(Root* r)
+	void Object::addEntity(Root* r)
 	{
 		this->entities.push_back(r);
 		count += 1;
 		size += r->getSize();
-	}
-
-	Root* Object::findByName(std::string name)
-	{
-		for (const auto r : entities)
-		{
-			if (r->getName() == name)
-			{
-				return r;
-			}
-		}
-		std::cout << "no as such" << std::endl;
-		return new Object("ninjia");
 	}
 
 	void Object::pack(std::vector<uint8_t>& buffer, int16_t& iterator)
@@ -43,5 +31,19 @@ namespace ObjectModel
 		}
 
 		Core::encode<int32_t>(buffer, iterator, size);
+
+	}
+
+	Root* Object::findByName(std::string name)
+	{
+		for (const auto r : entities)
+		{
+			if (r->getName() == name)
+			{
+				return r;
+			}
+		}
+		std::cout << "no as such" << std::endl;
+		return new Object("ninjia");
 	}
 }
