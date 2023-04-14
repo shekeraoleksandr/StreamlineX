@@ -7,14 +7,16 @@
 
 namespace ObjectModel
 {
-	class Root
+
+	class LIB Root
 	{
+	public:
+		uint8_t wrapper;
 	protected:
-		std::string name;
-		int16_t nameLength;
-		int8_t wrapper;
-		int32_t size;
-	protected:
+		mutable int16_t nameLength;
+		mutable std::string name;
+		mutable int32_t size;
+	public:
 		Root()
 			:
 			name("unknown"),
@@ -22,14 +24,17 @@ namespace ObjectModel
 			nameLength(0),
 			size(sizeof nameLength + sizeof wrapper + sizeof size) {}
 	public:
-		int32_t getSize() { return size; }
-		void setName(std::string name)
+		inline int32_t getSize() const { return size; }
+
+		void setName(std::string name) const
 		{
 			this->name = name;
 			nameLength = (int16_t)name.length();
 			size += nameLength;
 		}
-		std::string getName() { return name; }
-		virtual void pack(std::vector<int8_t>*, int16_t*) = 0;
+
+		inline std::string getName() const { return name; }
+
+		virtual void pack(std::vector<uint8_t>&, int16_t&) = 0;
 	};
 }

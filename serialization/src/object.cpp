@@ -1,6 +1,5 @@
-#include "../include/object.h"
-#include "../include/core.h"
-
+#include "object.h"
+#include "core.h"
 
 namespace ObjectModel
 {
@@ -31,7 +30,7 @@ namespace ObjectModel
 		return new Object("ninjia");
 	}
 
-	void Object::pack(std::vector<int8_t>* buffer, int16_t* iterator)
+	void Object::pack(std::vector<uint8_t>& buffer, int16_t& iterator)
 	{
 		Core::encode<std::string>(buffer, iterator, name);
 		Core::encode<int16_t>(buffer, iterator, nameLength);
