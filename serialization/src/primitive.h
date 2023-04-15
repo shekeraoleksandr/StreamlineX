@@ -1,6 +1,7 @@
 #pragma once
 #include "root.h"
 #include <memory>
+#include "core.h"
 
 namespace ObjectModel
 {
@@ -9,7 +10,7 @@ namespace ObjectModel
 	private:
 		uint8_t type = 0;
 		std::vector<uint8_t>* data = nullptr;
-	private:
+	public:
 		Primitive();
 	public:
 		template<typename T>
