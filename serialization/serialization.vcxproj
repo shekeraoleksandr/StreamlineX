@@ -22,7 +22,9 @@
     <ClInclude Include="src\array.h" />
     <ClInclude Include="src\core.h" />
     <ClInclude Include="src\object.h" />
-    <ClInclude Include="src\primitive.cpp" />
+    <ClCompile Include="src\primitive.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClInclude Include="src\lib.h" />
     <ClInclude Include="src\meta.h" />
     <ClInclude Include="src\primitive.h" />

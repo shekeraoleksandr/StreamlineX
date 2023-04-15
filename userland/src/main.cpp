@@ -7,8 +7,8 @@ namespace TestFrame
 {
 	void testPack()
 	{
-		std::string foo = "name";
-		std::unique_ptr<Array> p = Array::createString("name", Type::I8, foo);
+		int32_t foo = 5;
+		std::unique_ptr<Primitive> p = Primitive::create("int32", Type::I32, foo);
 
 		Object Test("Foo");
 		Test.addEntity(p.get());

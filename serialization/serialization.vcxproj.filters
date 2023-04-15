@@ -18,9 +18,6 @@
     <ClInclude Include="src\meta.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\primitive.cpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\core.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -42,6 +39,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\object.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\primitive.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
