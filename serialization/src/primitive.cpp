@@ -26,4 +26,17 @@ namespace ObjectModel
 		Core::encode<int32_t>(buffer, iterator, size);
 
 	}
+
+	Primitive Primitive::unpack(const std::vector<uint8_t>& buffer, int16_t& it)
+	{
+		Primitive p;
+		p.wrapper = Core::decode<int8_t>(buffer, it);
+		p.nameLength = Core::decode<int16_t>(buffer, it);
+		p.name = Core::decode<std::string>(buffer, it);
+		p.type = Core::decode<uint8_t>(buffer, it);
+		p.data = new std::vector<uint8_t>(getTypeSize((Type)p.type));
+		Core::decode(buffer, it, *p.data);
+		p.size = Core::decode<int32_t>(buffer, it);
+		return p;
+	}
 }

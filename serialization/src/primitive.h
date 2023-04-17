@@ -31,6 +31,7 @@ namespace ObjectModel
 		}
 
 		void pack(std::vector<uint8_t>&, int16_t&);
+		static Primitive unpack(const std::vector<uint8_t>&, int16_t&);
 	};
 
 }

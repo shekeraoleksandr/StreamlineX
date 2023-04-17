@@ -11,6 +11,7 @@ namespace Core
 	{
 		bool LIB isLittleEndian();
 		void save(const char*, std::vector<uint8_t>& vector);
+		std::vector<uint8_t> LIB load(const char*);
 		void LIB retriveNsave(ObjectModel::Root* r);
 
 	}
@@ -56,6 +57,44 @@ namespace Core
 		for (unsigned i = 0; i < value.size(); i++)
 		{
 			encode<T>(buffer, iterator, value[i]);
+		}
+	}
+
+	//deserealize
+
+	template<typename T>
+	T decode(const std::vector<uint8_t>& buffer, int16_t& it)
+	{
+		T result = 0;
+
+
+		for (unsigned i = 0; i < sizeof(T); i++)
+		{
+			T temp = (T)buffer[it++] << (((sizeof(T) * 8) - 8) - (i * 8));
+			result = result | temp;
+		}
+
+		return result;
+	}
+
+	template<>
+	inline std::string decode<std::string>(const std::vector<uint8_t>& buffer, int16_t& it)
+	{
+		it -= 2;
+		int16_t size = decode<int16_t>(buffer, it);
+
+		std::string result((buffer.begin() + it), (buffer.begin() + (it + size)));
+		it += size;
+
+		return result;
+	}
+
+	template<typename ...>
+	void decode(const std::vector<uint8_t>& buffer, int16_t& it, std::vector<uint8_t>& dest)
+	{
+		for (unsigned i = 0; i < dest.size(); i++)
+		{
+			dest[i] = buffer[it++];
 		}
 	}
 }
