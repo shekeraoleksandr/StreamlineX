@@ -11,11 +11,6 @@ namespace ObjectModel
 		size += sizeof type;
 	}
 
-	Primitive::~Primitive()
-	{
-		delete data;
-	}
-
 	void Primitive::pack(std::vector<uint8_t>& buffer, int16_t& iterator)
 	{
 		Core::encode<uint8_t>(buffer, iterator, wrapper);

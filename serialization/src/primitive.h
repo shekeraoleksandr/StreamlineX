@@ -12,7 +12,6 @@ namespace ObjectModel
 		std::vector<uint8_t>* data = nullptr;
 	public:
 		Primitive();
-		~Primitive();
 	public:
 		template<typename T>
 		static std::unique_ptr<Primitive> create(std::string name, Type type, T value)
