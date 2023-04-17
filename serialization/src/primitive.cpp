@@ -34,4 +34,9 @@ namespace ObjectModel
 		p.size = Core::decode<int32_t>(buffer, it);
 		return p;
 	}
+
+	std::vector<uint8_t> Primitive::getData()
+	{
+		return *data;
+	}
 }

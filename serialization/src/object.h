@@ -6,7 +6,7 @@
 
 namespace ObjectModel
 {
-	class Object : public Root
+	class LIB Object : public Root
 	{
 	public:
 		int16_t primitiveCount = 0, arrayCount = 0, stringCount = 0, objectCount = 0;
