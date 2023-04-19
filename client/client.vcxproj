@@ -88,6 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)serialization\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +145,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\client.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\serialization\serialization.vcxproj">
+      <Project>{e0b41b47-fbc6-4b05-9b9d-7f4b2b1085cb}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
