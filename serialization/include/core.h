@@ -9,10 +9,10 @@ namespace Core
 {
 	namespace Util
 	{
-		bool LIB isLittleEndian();
+		bool isLittleEndian();
 		void save(const char*, std::vector<uint8_t>& vector);
-		std::vector<uint8_t> LIB load(const char*);
-		void LIB retriveNsave(ObjectModel::Root* r);
+		std::vector<uint8_t> load(const char*);
+		void retriveNsave(ObjectModel::Root* r);
 
 	}
 

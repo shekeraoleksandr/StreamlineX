@@ -6,7 +6,7 @@
 
 namespace ObjectModel
 {
-	class LIB Array : public Root
+	class Array : public Root
 	{
 	private:
 		uint8_t type = 0;

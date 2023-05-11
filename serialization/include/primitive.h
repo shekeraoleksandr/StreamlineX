@@ -5,7 +5,7 @@
 
 namespace ObjectModel
 {
-	class LIB Primitive : public Root
+	class Primitive : public Root
 	{
 	private:
 		uint8_t type = 0;
@@ -32,6 +32,7 @@ namespace ObjectModel
 		void pack(std::vector<uint8_t>&, int16_t&);
 		static Primitive unpack(const std::vector<uint8_t>&, int16_t&);
 		std::vector<uint8_t> getData();
+		inline std::vector<uint8_t>* getPtrData() { return data; }
 	};
 
 }
