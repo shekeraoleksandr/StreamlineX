@@ -4,31 +4,34 @@
     <Filter Include="src">
       <UniqueIdentifier>{a418b618-8e4c-423c-9a30-194a6deacf21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{6eb660ba-49f8-498d-9721-5fd9a68404b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\lib.h">
-      <Filter>src</Filter>
+    <ClInclude Include="include\array.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="src\root.h">
-      <Filter>src</Filter>
+    <ClInclude Include="include\core.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="src\primitive.h">
-      <Filter>src</Filter>
+    <ClInclude Include="include\meta.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="src\meta.h">
-      <Filter>src</Filter>
+    <ClInclude Include="include\object.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="src\core.h">
-      <Filter>src</Filter>
+    <ClInclude Include="include\primitive.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="src\array.h">
-      <Filter>src</Filter>
+    <ClInclude Include="include\root.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="src\object.h">
-      <Filter>src</Filter>
+    <ClInclude Include="include\serialization.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="src\serialization.h">
-      <Filter>src</Filter>
+    <ClInclude Include="include\lib.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +45,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\primitive.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

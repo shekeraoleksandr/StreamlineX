@@ -1,5 +1,5 @@
-#include "object.h"
-#include "core.h"
+#include "../include/object.h"
+#include "../include/core.h"
 
 
 namespace ObjectModel

@@ -19,19 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\array.h" />
-    <ClInclude Include="src\core.h" />
-    <ClInclude Include="src\object.h" />
+    <ClInclude Include="include\array.h" />
+    <ClInclude Include="include\core.h" />
+    <ClInclude Include="include\lib.h" />
+    <ClInclude Include="include\meta.h" />
+    <ClInclude Include="include\object.h" />
+    <ClInclude Include="include\primitive.h" />
+    <ClInclude Include="include\root.h" />
+    <ClInclude Include="include\serialization.h" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\primitive.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClInclude Include="src\lib.h" />
-    <ClInclude Include="src\meta.h" />
-    <ClInclude Include="src\primitive.h" />
-    <ClInclude Include="src\root.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="src\serialization.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\array.cpp" />
@@ -47,7 +46,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
