@@ -52,5 +52,7 @@ namespace ObjectModel
 		void pack(std::vector<uint8_t>&, int16_t&);
 		static Array unpack(std::vector<uint8_t>& buffer, int16_t&);
 		static Array unpackS(std::vector<uint8_t>& buffer, int16_t&);
+
+        std::vector<uint8_t> getData();
 	};
 }

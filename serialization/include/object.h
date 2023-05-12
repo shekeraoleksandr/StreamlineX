@@ -36,45 +36,38 @@ namespace ObjectModel
 			}
 		}
 
-		Root* findByName(std::string name)
-		{
-			for (Primitive p : primitives)
-			{
-				if (p.getName() == name)
-				{
-					return dynamic_cast<Root*>(&p);
-				}
-			}
+        Array findStringByName(std::string name)
+        {
+            for (Array str : strings)
+            {
+                if (str.getName() == name)
+                {
+                    return  str;
+                }
+            }
+        }
 
-			for (Array arr : arrays)
-			{
-				if (arr.getName() == name)
-				{
-					return dynamic_cast<Root*>(&arr);
-				}
-			}
+        Object findObjectByName(std::string name)
+        {
+            for (Object o : objects)
+            {
+                if (o.getName() == name)
+                {
+                    return o;
+                }
+            }
+        }
 
-			for (Array str : strings)
-			{
-				if (str.getName() == name)
-				{
-					return  dynamic_cast<Root*>(&str);
-				}
-			}
-
-			for (Object o : objects)
-			{
-				if (o.getName() == name)
-				{
-					return  dynamic_cast<Root*>(&o);
-				}
-			}
-
-			std::cout << "no as such" << std::endl;
-
-			return new Object("SYSTEM:empty");
-
-		}
+        Array findArrayByName(std::string name)
+        {
+            for (Array arr : arrays)
+            {
+                if (arr.getName() == name)
+                {
+                    return arr;
+                }
+            }
+        }
 	};
 
 }

@@ -90,7 +90,7 @@ namespace Core
 	}
 
 	template<typename ...>
-	void decode(const std::vector<uint8_t>& buffer, int16_t& it, std::vector<uint8_t>& dest)
+	inline void decode(const std::vector<uint8_t>& buffer, int16_t& it, std::vector<uint8_t>& dest)
 	{
 		for (unsigned i = 0; i < dest.size(); i++)
 		{

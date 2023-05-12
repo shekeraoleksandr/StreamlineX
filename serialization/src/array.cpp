@@ -54,4 +54,9 @@ namespace ObjectModel
 
 		return str;
 	}
+
+    std::vector<uint8_t> Array::getData()
+    {
+        return *data;
+    }
 }
