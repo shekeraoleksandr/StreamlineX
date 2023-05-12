@@ -24,7 +24,7 @@ namespace ObjectModel
 			arr->type = static_cast<uint8_t>(type);
 			arr->count = (int32_t)value.size();
 			arr->data = new std::vector<uint8_t>(sizeof(T) * arr->count);
-			arr->size += (int32_t)(value.size()) * sizeof T;
+			arr->size += (int32_t)(value.size()) * sizeof( T);
 			int16_t iterator = 0;
 			Core::template encode<T>(*arr->data, iterator, value);
 

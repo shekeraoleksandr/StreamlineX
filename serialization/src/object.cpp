@@ -4,7 +4,7 @@
 
 namespace ObjectModel
 {
-	Object::Object(std::string name = "default")
+	Object::Object(std::string name)
 	{
 		setName(name);
 		wrapper = static_cast<uint8_t>(Wrapper::OBJECT);

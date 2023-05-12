@@ -15,7 +15,7 @@ namespace ObjectModel
 		std::vector<Array> strings;
 		std::vector<Object> objects;
 	public:
-		Object(std::string);
+		Object(std::string name = "default");
 		void addEntity(Root*);
 		void pack(std::vector<uint8_t>&, int16_t&);
 		static Object unpack(std::vector<uint8_t>&, int16_t&);
