@@ -61,3 +61,26 @@ TEST(Core, object)
 
 
 }
+
+TEST(Core, array)
+{
+    using namespace ObjectModel;
+
+    std::string str = "test";
+    std::unique_ptr<Array> arr = Array::createString("String", Type::I8, str);
+
+    int16_t it = 0;
+    std::vector<uint8_t> buffer(arr->getSize());
+    arr->pack(buffer, it);
+    std::string test(buffer.begin(), buffer.end());
+
+    EXPECT_NE(arr->getPtrData(), nullptr);
+    EXPECT_THAT(test, StartsWith("\x00\x00\x00\x17"    // Size (little-endian, 4 bytes)
+                                 "\x53\x74\x72\x69\x6E\x67"    // Name: "String"
+                                 "\x01\x00\x00\x00"    // Type: I8
+                                 "\x04\x00\x00\x00"    // Length of the string data: 4 bytes
+                                 "\x74\x65\x73\x74"));    // String: "test"
+
+    EXPECT_STREQ("String", arr->getName().c_str());
+    EXPECT_EQ(22, arr->getSize());
+}
