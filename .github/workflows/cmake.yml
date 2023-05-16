@@ -18,7 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./serialization
+        working-directory:
+          ./serialization
+          ./EventSystem
 
     steps:
     - uses: actions/checkout@v3
