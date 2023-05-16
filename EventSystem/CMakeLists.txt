@@ -25,6 +25,16 @@ file(GLOB all_SRCS
         "${PROJECT_SOURCE_DIR}/src/*.cpp"
         )
 
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    option(EVENT_SYSTEM_TESTS "build tests (or no)" ON)
+
+    if (EVENT_SYSTEM_TESTS)
+        add_library(example_google_tests ${all_SRCS})
+        enable_testing()
+        add_subdirectory(tests)
+    endif ()
+endif ()
+
 add_executable(EventSystem ${all_SRCS})
 target_link_libraries(EventSystem ${OPENGL_LIBRARIES} glfw )
 

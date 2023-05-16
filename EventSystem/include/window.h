@@ -2,7 +2,7 @@
 #include <string>
 #include <functional>
 #include "event.h"
-#include "GLFW/glfw3.h"
+#include "../glfw/include/GLFW/glfw3.h"
 
 
 namespace Core
