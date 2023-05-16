@@ -1,8 +1,9 @@
 #include <iostream>
-#include "window.h"
-#include "mouseevent.h"
-#include "keyboard.h"
-#include "windowevent.h"
+#include "cassert"
+#include "../include/window.h"
+#include "../include/mouseevent.h"
+#include "../include/keyboard.h"
+#include "../include/windowevent.h"
 
 namespace Core
 {
@@ -28,17 +29,13 @@ namespace Core
 
 		if (!glfwInit())
 		{
-			_asm {
-				int 3
-			}
+            assert(false && "Failed to initialize GLFW!");
 		}
 		window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
 
 		if (!window)
 		{
-			_asm {
-				int 3
-			}
+            assert(false && "Failed to create GLFW window!");
 		}
 
 		glfwMakeContextCurrent(window);
