@@ -23,4 +23,4 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     endif ()
 endif ()
 
-add_executable(app ${all_SRCS})
+add_executable(serialization ${all_SRCS})
