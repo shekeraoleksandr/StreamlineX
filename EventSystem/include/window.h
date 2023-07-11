@@ -2,8 +2,8 @@
 #include <string>
 #include <functional>
 #include "event.h"
-#include "../glfw/include/GLFW/glfw3.h"
-
+#include <GLFW/glfw3.h>
+#define __forceinline __attribute__((always_inline))
 
 namespace Core
 {

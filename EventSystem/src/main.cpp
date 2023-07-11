@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../glfw/include/GLFW/glfw3.h"
+#include "GLFW/glfw3.h"
 #include "../include/window.h"
 
 int main()
