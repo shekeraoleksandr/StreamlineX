@@ -1,6 +1,5 @@
 #include "../include/serialization.h"
 #include <cassert>
-#include "../include/primitive.h"
 
 
 
@@ -51,15 +50,15 @@ namespace TestFrame
         int w = Core::decode<int32_t>(toPrintObject.findPrimitiveByName("int32").getData(), it2);
         std::cout << "Primitive: " << w << std::endl;
 
-        it2 = 0;
-        std::string str = Core::decode<std::string>(toPrintObject.findStringByName("string").getData(), it2);
-        std::string res = str.substr(0, toPrintObject.findStringByName("string").getData().size());
-        std::cout << "String: " << res << std::endl;
+//        [[maybe_unused]] int16_t it3 = 0;
+//        std::string str = Core::decode<std::string>(toPrintObject.findStringByName("string").getData(), it3);
+//        std::string res = str.substr(0, toPrintObject.findStringByName("string").getData().size());
+//        std::cout << "String: " << res << std::endl;
 
-        it2 = 0;
-        std::vector<uint8_t> v(toPrintObject.findArrayByName("array").getData().size());
-        Core::decode(toPrintObject.findArrayByName("array").getData(), it2,  v);
-        std::cout << "Array: " << v << std::endl;
+//        [[maybe_unused]] int16_t it4 = 0;
+//        std::vector<uint8_t> v(toPrintObject.findArrayByName("array").getData().size());
+//        Core::decode(toPrintObject.findArrayByName("array").getData(), it4,  v);
+//        std::cout << "Array: " << v << std::endl;
 	}
 }
 

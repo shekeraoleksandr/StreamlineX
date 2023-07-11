@@ -1,26 +1,16 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.20)
+
 project(serialization)
 
+option(BUILD_TESTS "Build unit tests (default OFF)" OFF)
+
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(
-        ${PROJECT_SOURCE_DIR}/src
-        ${PROJECT_SOURCE_DIR}/include
-)
+add_subdirectory(src)
+add_subdirectory(include)
 
-file(GLOB all_SRCS
-        "${PROJECT_SOURCE_DIR}/include/*.h"
-        "${PROJECT_SOURCE_DIR}/src/*.cpp"
-        )
-
-if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-    option(SERIALIZATION_TESTS "build tests (or no)" ON)
-
-    if (SERIALIZATION_TESTS)
-        add_library(example_google_tests ${all_SRCS})
-        enable_testing()
-        add_subdirectory(tests)
-    endif ()
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
 endif ()
-
-add_executable(serialization ${all_SRCS})
