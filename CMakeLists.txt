@@ -10,11 +10,26 @@ if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
 endif()
 
 include(conan.cmake)
+
+conan_cmake_profile(FILEPATH    "${CMAKE_BINARY_DIR}/profile"
+                    SETTINGS    os=Linux
+                                os_build=Linux
+                                arch=x86_64
+                                arch_build=x86_64
+                                compiler=gcc
+                                compiler.version=9
+                                compiler.libcxx=libstdc++11
+                                build_type=Release
+                    OPTIONS     qt:shared=True
+                    CONF        "tools.system.package_manager:mode=install"
+                                "tools.system.package_manager:sudo=True")
+
 conan_cmake_run(REQUIRES
         glfw/3.3.8
         BASIC_SETUP CMAKE_TARGETS
         GENERATORS cmake_find_package cmake_paths
         BUILD missing
+        PROFILE profile
         )
 
 include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
