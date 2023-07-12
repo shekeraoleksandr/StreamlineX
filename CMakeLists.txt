@@ -17,7 +17,7 @@ conan_cmake_profile(FILEPATH    "${CMAKE_BINARY_DIR}/profile"
                                 arch=x86_64
                                 arch_build=x86_64
                                 compiler=gcc
-                                compiler.version=9
+                                compiler.version=13.1
                                 compiler.libcxx=libstdc++11
                                 build_type=Release
                     OPTIONS     qt:shared=True
@@ -36,5 +36,6 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 
 add_subdirectory(serialization)
 add_subdirectory(EventSystem)
+add_subdirectory(server)
 
 
