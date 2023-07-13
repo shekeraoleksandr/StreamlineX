@@ -1,4 +1,4 @@
-[![ubuntu](https://github.com/shekeraoleksandr/SreamlineX/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/shekeraoleksandr/SreamlineX/actions/workflows/ubuntu.yml)
+[![ubuntu](https://github.com/shekeraoleksandr/StreamlineX/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/shekeraoleksandr/StreamlineX/actions/workflows/ubuntu.yml)
  
 # StreamlineX
 *StreamlineX* - is a project consisting of several mini-projects.
